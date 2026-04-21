@@ -1,0 +1,120 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "🍎 Apple Hub | Ultimate V5",
+    SubTitle = "Bản Full Chức Năng - Cày Thuê Chuyên Nghiệp",
+    TabWidth = 160, Size = UDim2.fromOffset(580, 460), Acrylic = true, Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+-- [[ HỆ THỐNG BIẾN ĐIỀU KHIỂN ]]
+_G.AutoFarm = false
+_G.AutoChest = false
+_G.AutoElite = false
+_G.AutoStats = false
+_G.StatPoint = "Melee" -- Mặc định cộng vào Melee
+_G.SelectWeapon = "Melee"
+
+-- [[ LOGIC GOM QUÁI & ĐÁNH (CỦA CHỦ TỊCH ĐÃ FIX) ]]
+function BringMobFunction()
+    spawn(function()
+        while _G.AutoFarm do task.wait()
+            pcall(function()
+                local Character = game.Players.LocalPlayer.Character
+                if Character and Character:FindFirstChild("HumanoidRootPart") then
+                    for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") then
+                            if (v.HumanoidRootPart.Position - Character.HumanoidRootPart.Position).Magnitude <= 300 then
+                                v.HumanoidRootPart.CanCollide = false
+                                v.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -5)
+                                v.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end
+
+-- [[ LOGIC AUTO STATS (CỘNG ĐIỂM TỰ ĐỘNG) ]]
+spawn(function()
+    while task.wait(1) do
+        if _G.AutoStats then
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", _G.StatPoint, 1)
+        end
+    end
+end)
+
+-- [[ DANH SÁCH TAB ]]
+local Tabs = {
+    Main = Window:AddTab({ Title = "🏠 Tự Động", Icon = "home" }),
+    Stats = Window:AddTab({ Title = "📊 Chỉ Số", Icon = "bar-chart" }),
+    Items = Window:AddTab({ Title = "⚔️ Vật Phẩm", Icon = "sword" }),
+    Sea = Window:AddTab({ Title = "🌊 Biển Đảo", Icon = "waves" }),
+    Teleport = Window:AddTab({ Title = "📍 Dịch Chuyển", Icon = "map-pin" }),
+    Misc = Window:AddTab({ Title = "⚙️ Hệ Thống", Icon = "settings" })
+}
+
+-- --- TAB TỰ ĐỘNG ---
+Tabs.Main:AddSection("Cày Cấp & Gom Quái")
+Tabs.Main:AddToggle("AutoFarm", {Title = "Auto Farm Level", Default = false}):OnChanged(function()
+    _G.AutoFarm = Fluent.Options.AutoFarm.Value
+    if _G.AutoFarm then BringMobFunction() end
+end)
+
+Tabs.Main:AddToggle("AutoChest", {Title = "Auto Farm Chest (Gom Rương)", Default = false}):OnChanged(function()
+    _G.AutoChest = Fluent.Options.AutoChest.Value
+end)
+
+Tabs.Main:AddToggle("AutoElite", {Title = "Auto Elite Hunter (Săn Boss)", Default = false}):OnChanged(function()
+    _G.AutoElite = Fluent.Options.AutoElite.Value
+end)
+
+-- --- TAB CHỈ SỐ (AUTO STATS) ---
+Tabs.Stats:AddSection("Tự Động Cộng Điểm")
+Tabs.Stats:AddToggle("AutoStats", {Title = "Kích Hoạt Auto Stats", Default = false})
+Tabs.Stats:AddDropdown("StatPoint", {
+    Title = "Chọn Chỉ Số Cần Cộng",
+    Values = {"Melee", "Defense", "Sword", "Gun", "Demon Fruit"},
+    Default = "Melee",
+    Callback = function(Value) _G.StatPoint = Value end
+})
+
+-- --- TAB VẬT PHẨM ---
+Tabs.Items:AddSection("Săn Kiếm Sea 3")
+Tabs.Items:AddButton({Title = "Auto Lấy Cursed Dual Katana", Callback = function() end})
+Tabs.Items:AddButton({Title = "Auto Lấy Soul Guitar", Callback = function() end})
+Tabs.Items:AddButton({Title = "Auto Lấy Yama", Callback = function() end})
+
+-- --- TAB DỊCH CHUYỂN ---
+Tabs.Teleport:AddSection("Dịch Chuyển Nhanh")
+Tabs.Teleport:AddButton({Title = "Về Mansion", Callback = function() 
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-12463, 374, -7523) 
+end})
+Tabs.Teleport:AddButton({Title = "Về Hydra Island", Callback = function() 
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-5244, 388, 2270) 
+end})
+
+-- [[ NÚT TRÒN 🍎 FIX TĨNH ]]
+local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+local ToggleButton = Instance.new("TextButton", ScreenGui)
+ToggleButton.Size = UDim2.new(0, 45, 0, 45)
+ToggleButton.Position = UDim2.new(0, 30, 0, 150)
+ToggleButton.Text = "🍎"
+ToggleButton.TextSize = 28
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+ToggleButton.Draggable = true 
+local UICorner = Instance.new("UICorner", ToggleButton)
+UICorner.CornerRadius = UDim.new(1, 0)
+local UIStroke = Instance.new("UIStroke", ToggleButton)
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Thickness = 1.5
+
+ToggleButton.MouseButton1Click:Connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
+    game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+end)
+
+Window:SelectTab(1)
+Fluent:Notify({Title = "Apple Hub V5", Content = "Đã cập nhật Auto Stats & Elite Hunter!", Duration = 5})
