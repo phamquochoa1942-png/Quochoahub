@@ -1,5 +1,12 @@
--- Load UI Library từ link của bạn
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/phamquochoa1942-png/Uinew/refs/heads/main/ui%20lib.lua"))()
+-- Load UI Library
+loadstring(game:HttpGet("https://raw.githubusercontent.com/phamquochoa1942-png/Uinew/refs/heads/main/ui%20lib.lua"))()
+
+wait(0.5)
+
+-- Bật UI (quan trọng!)
+dz.UIToggled = true
+dz.ReadyForGuiLoaded = true
+nz.Gui.Enabled = true
 
 -- Tạo cửa sổ chính
 local Cz = Kz.CreateMain({ Desc = "" })
@@ -30,26 +37,21 @@ Sec4.CreateSlider({ Title = "Kill Aura Range", Min = 10, Max = 100, Default = 30
 local Tab3 = Cz.T({ Page_Name = "Teleport", Page_Title = "Teleport Options" })
 local Sec5 = Tab3.CreateSection("Islands")
 Sec5.CreateDropdown({ Title = "Select Island", Values = { "Start", "Jungle", "Desert", "Snow", "Sky" }, Default = "Start", Callback = function(v) _G.Island = v end })
-Sec5.CreateButton({ Title = "Teleport to Island", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Teleported to " .. (_G.Island or "Start"), ShowTime = 2 }) end })
-
-local Sec6 = Tab3.CreateSection("NPCs")
-Sec6.CreateDropdown({ Title = "Select NPC", Values = { "Boat Dealer", "Fruit Dealer", "Sword Dealer" }, Default = "Boat Dealer", Callback = function(v) _G.NPC = v end })
-Sec6.CreateButton({ Title = "Teleport to NPC", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Teleported to " .. (_G.NPC or "Boat Dealer"), ShowTime = 2 }) end })
+Sec5.CreateButton({ Title = "Teleport", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Teleported to " .. (_G.Island or "Start"), ShowTime = 2 }) end })
 
 -- Tab 4: Settings
 local Tab4 = Cz.T({ Page_Name = "Settings", Page_Title = "Script Settings" })
-local Sec7 = Tab4.CreateSection("Combat Settings")
-Sec7.CreateToggle({ Title = "Bring Mobs", Default = true, Callback = function(v) _G.BringMob = v end })
-Sec7.CreateToggle({ Title = "Random CFrame", Default = false, Callback = function(v) _G.RandomCF = v end })
-Sec7.CreateSlider({ Title = "TPS Delay", Min = 0.1, Max = 2, Default = 0.5, Precise = true, Callback = function(v) _G.TPS = v end })
+local Sec6 = Tab4.CreateSection("Combat")
+Sec6.CreateToggle({ Title = "Bring Mobs", Default = true, Callback = function(v) _G.BringMob = v end })
+Sec6.CreateToggle({ Title = "Random CFrame", Default = false, Callback = function(v) _G.RandomCF = v end })
 
-local Sec8 = Tab4.CreateSection("Player Settings")
-Sec8.CreateToggle({ Title = "Anti AFK", Default = true, Callback = function(v) _G.AntiAFK = v end })
-Sec8.CreateToggle({ Title = "Auto Buso Haki", Default = true, Callback = function(v) _G.AutoBuso = v end })
-Sec8.CreateButton({ Title = "Rejoin Server", Callback = function() Kz.CreateNoti({ Title = "Server", Desc = "Rejoining...", ShowTime = 2 }) end })
+local Sec7 = Tab4.CreateSection("Player")
+Sec7.CreateToggle({ Title = "Anti AFK", Default = true, Callback = function(v) _G.AntiAFK = v end })
+Sec7.CreateToggle({ Title = "Auto Buso", Default = true, Callback = function(v) _G.AutoBuso = v end })
+Sec7.CreateButton({ Title = "Rejoin", Callback = function() Kz.CreateNoti({ Title = "Server", Desc = "Rejoining...", ShowTime = 2 }) end })
 
--- Tab 5: Misc
-local Tab5 = Cz.T({ Page_Name = "Misc", Page_Title = "Miscellaneous" })
-local Sec9 = Tab5.CreateSection("Test Elements")
-Sec9.CreateButton({ Title = "Show Notification", Callback = function() Kz.CreateNoti({ Title = "Test", Desc = "This is a test notification!", ShowTime = 3 }) end })
-Sec9.CreateBox({ Title = "Test Input", Placeholder = "Type something...", Default = "", Callback = function(v) print("Input:", v) end }) 
+-- Tab 5: Test
+local Tab5 = Cz.T({ Page_Name = "Test", Page_Title = "Test Elements" })
+local Sec8 = Tab5.CreateSection("Test")
+Sec8.CreateButton({ Title = "Show Notification", Callback = function() Kz.CreateNoti({ Title = "Test", Desc = "This is a test!", ShowTime = 3 }) end })
+Sec8.CreateBox({ Title = "Test Box", Placeholder = "Type here...", Callback = function(v) print(v) end })
