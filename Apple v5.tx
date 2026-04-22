@@ -1,42 +1,36 @@
 -- Load UI Library
 loadstring(game:HttpGet("https://raw.githubusercontent.com/phamquochoa1942-png/Uinew/refs/heads/main/ui%20lib.lua"))()
 
-wait(0.5)
+-- Chờ UI load
+repeat wait() until dz.ReadyForGuiLoaded
 
--- Bật cả Menu và sẵn sàng load
+-- Tạo cửa sổ chính TRƯỚC
+local Cz = Kz.CreateMain({ Desc = "Auto Farm Fix | by Quoc Hoa" })
+
+-- Sau đó mới bật UI và set vị trí
 dz.UIToggled = true
-dz.ReadyForGuiLoaded = true
 nz.Gui.Enabled = true
 
--- Tạo cửa sổ chính
-local Cz = Kz.CreateMain({ Desc = "" })
+-- Fix cứng: set Position của Main về giữa màn hình
+local MainFrame = nz.Gui:FindFirstChild("Main")
+if MainFrame then
+    MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+end
 
--- Sau khi tạo xong, đảm bảo menu hiển thị
-nz.Gui.Enabled = true
+-- ==================== TABS ====================
+local farmTab = Cz.T({ Page_Name = "Farm", Page_Title = "Farm" })
+local settingTab = Cz.T({ Page_Name = "Settings", Page_Title = "Settings" })
 
--- Tab 1: Main
-local Tab1 = Cz.T({ Page_Name = "Main", Page_Title = "Main Features" })
-local Sec1 = Tab1.CreateSection("Auto Farm")
-Sec1.CreateToggle({ Title = "Auto Farm Level", Default = false, Callback = function(v) _G.AutoFarm = v end })
-Sec1.CreateToggle({ Title = "Auto Farm Boss", Default = false, Callback = function(v) _G.AutoBoss = v end })
-Sec1.CreateDropdown({ Title = "Select Weapon", Values = { "Melee", "Sword", "Blox Fruit", "Gun" }, Default = "Melee", Callback = function(v) _G.Weapon = v end })
+-- Farm Section
+local farmSec = farmTab.CreateSection("Auto Farm")
+farmSec.CreateToggle({ Title = "Auto Farm Level", Default = false, Callback = function(v) _G.AutoFarm = v end })
+farmSec.CreateToggle({ Title = "Bring Mob", Default = true, Callback = function(v) _G.BringMob = v end })
+farmSec.CreateSlider({ Title = "Tween Speed", Min = 100, Max = 500, Default = 300, Callback = function(v) _G.TweenSpeed = v end })
 
--- Tab 2: Combat
-local Tab2 = Cz.T({ Page_Name = "Combat", Page_Title = "Combat Settings" })
-local Sec2 = Tab2.CreateSection("Aimbot")
-Sec2.CreateToggle({ Title = "Aimbot Skills", Default = false, Callback = function(v) _G.Aimbot = v end })
-Sec2.CreateSlider({ Title = "Aimbot Distance", Min = 100, Max = 1000, Default = 500, Callback = function(v) _G.AimDist = v end })
+-- Settings Section
+local setSec = settingTab.CreateSection("Settings")
+setSec.CreateToggle({ Title = "Anti AFK", Default = true, Callback = function(v) _G.AntiAFK = v end })
+setSec.CreateButton({ Title = "Rejoin", Callback = function() game:GetService("TeleportService"):Teleport(game.PlaceId) end })
 
--- Tab 3: Teleport
-local Tab3 = Cz.T({ Page_Name = "Teleport", Page_Title = "Teleport Options" })
-local Sec3 = Tab3.CreateSection("Islands")
-Sec3.CreateDropdown({ Title = "Select Island", Values = { "Start", "Jungle", "Desert", "Snow", "Sky" }, Default = "Start", Callback = function(v) _G.Island = v end })
-Sec3.CreateButton({ Title = "Teleport", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Done!", ShowTime = 2 }) end })
-
--- Tab 4: Settings
-local Tab4 = Cz.T({ Page_Name = "Settings", Page_Title = "Script Settings" })
-local Sec4 = Tab4.CreateSection("Combat")
-Sec4.CreateToggle({ Title = "Bring Mobs", Default = true, Callback = function(v) _G.BringMob = v end })
-Sec4.CreateToggle({ Title = "Random CFrame", Default = false, Callback = function(v) _G.RandomCF = v end })
-
-print("UI Created! Click the logo button to toggle menu.")
+print("UI Loaded! Check your screen.")
