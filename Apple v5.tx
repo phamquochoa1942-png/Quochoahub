@@ -3,13 +3,16 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/phamquochoa1942-png/U
 
 wait(0.5)
 
--- Bật UI (quan trọng!)
+-- Bật cả Menu và sẵn sàng load
 dz.UIToggled = true
 dz.ReadyForGuiLoaded = true
 nz.Gui.Enabled = true
 
 -- Tạo cửa sổ chính
 local Cz = Kz.CreateMain({ Desc = "" })
+
+-- Sau khi tạo xong, đảm bảo menu hiển thị
+nz.Gui.Enabled = true
 
 -- Tab 1: Main
 local Tab1 = Cz.T({ Page_Name = "Main", Page_Title = "Main Features" })
@@ -18,40 +21,22 @@ Sec1.CreateToggle({ Title = "Auto Farm Level", Default = false, Callback = funct
 Sec1.CreateToggle({ Title = "Auto Farm Boss", Default = false, Callback = function(v) _G.AutoBoss = v end })
 Sec1.CreateDropdown({ Title = "Select Weapon", Values = { "Melee", "Sword", "Blox Fruit", "Gun" }, Default = "Melee", Callback = function(v) _G.Weapon = v end })
 
-local Sec2 = Tab1.CreateSection("Auto Stats")
-Sec2.CreateToggle({ Title = "Auto Melee", Default = false, Callback = function(v) _G.Melee = v end })
-Sec2.CreateToggle({ Title = "Auto Defense", Default = false, Callback = function(v) _G.Defense = v end })
-Sec2.CreateToggle({ Title = "Auto Sword", Default = false, Callback = function(v) _G.Sword = v end })
-
 -- Tab 2: Combat
 local Tab2 = Cz.T({ Page_Name = "Combat", Page_Title = "Combat Settings" })
-local Sec3 = Tab2.CreateSection("Aimbot")
-Sec3.CreateToggle({ Title = "Aimbot Skills", Default = false, Callback = function(v) _G.Aimbot = v end })
-Sec3.CreateSlider({ Title = "Aimbot Distance", Min = 100, Max = 1000, Default = 500, Callback = function(v) _G.AimDist = v end })
-
-local Sec4 = Tab2.CreateSection("Kill Aura")
-Sec4.CreateToggle({ Title = "Kill Aura", Default = false, Callback = function(v) _G.KillAura = v end })
-Sec4.CreateSlider({ Title = "Kill Aura Range", Min = 10, Max = 100, Default = 30, Callback = function(v) _G.KillRange = v end })
+local Sec2 = Tab2.CreateSection("Aimbot")
+Sec2.CreateToggle({ Title = "Aimbot Skills", Default = false, Callback = function(v) _G.Aimbot = v end })
+Sec2.CreateSlider({ Title = "Aimbot Distance", Min = 100, Max = 1000, Default = 500, Callback = function(v) _G.AimDist = v end })
 
 -- Tab 3: Teleport
 local Tab3 = Cz.T({ Page_Name = "Teleport", Page_Title = "Teleport Options" })
-local Sec5 = Tab3.CreateSection("Islands")
-Sec5.CreateDropdown({ Title = "Select Island", Values = { "Start", "Jungle", "Desert", "Snow", "Sky" }, Default = "Start", Callback = function(v) _G.Island = v end })
-Sec5.CreateButton({ Title = "Teleport", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Teleported to " .. (_G.Island or "Start"), ShowTime = 2 }) end })
+local Sec3 = Tab3.CreateSection("Islands")
+Sec3.CreateDropdown({ Title = "Select Island", Values = { "Start", "Jungle", "Desert", "Snow", "Sky" }, Default = "Start", Callback = function(v) _G.Island = v end })
+Sec3.CreateButton({ Title = "Teleport", Callback = function() Kz.CreateNoti({ Title = "Teleport", Desc = "Done!", ShowTime = 2 }) end })
 
 -- Tab 4: Settings
 local Tab4 = Cz.T({ Page_Name = "Settings", Page_Title = "Script Settings" })
-local Sec6 = Tab4.CreateSection("Combat")
-Sec6.CreateToggle({ Title = "Bring Mobs", Default = true, Callback = function(v) _G.BringMob = v end })
-Sec6.CreateToggle({ Title = "Random CFrame", Default = false, Callback = function(v) _G.RandomCF = v end })
+local Sec4 = Tab4.CreateSection("Combat")
+Sec4.CreateToggle({ Title = "Bring Mobs", Default = true, Callback = function(v) _G.BringMob = v end })
+Sec4.CreateToggle({ Title = "Random CFrame", Default = false, Callback = function(v) _G.RandomCF = v end })
 
-local Sec7 = Tab4.CreateSection("Player")
-Sec7.CreateToggle({ Title = "Anti AFK", Default = true, Callback = function(v) _G.AntiAFK = v end })
-Sec7.CreateToggle({ Title = "Auto Buso", Default = true, Callback = function(v) _G.AutoBuso = v end })
-Sec7.CreateButton({ Title = "Rejoin", Callback = function() Kz.CreateNoti({ Title = "Server", Desc = "Rejoining...", ShowTime = 2 }) end })
-
--- Tab 5: Test
-local Tab5 = Cz.T({ Page_Name = "Test", Page_Title = "Test Elements" })
-local Sec8 = Tab5.CreateSection("Test")
-Sec8.CreateButton({ Title = "Show Notification", Callback = function() Kz.CreateNoti({ Title = "Test", Desc = "This is a test!", ShowTime = 3 }) end })
-Sec8.CreateBox({ Title = "Test Box", Placeholder = "Type here...", Callback = function(v) print(v) end })
+print("UI Created! Click the logo button to toggle menu.")
